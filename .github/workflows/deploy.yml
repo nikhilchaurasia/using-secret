@@ -4,8 +4,18 @@ on:
     branches:
       - main
       - dev
+# declaring environment variables at the workflow level
+env:
+  MONGODB_DB_NAME: gha-mongo-db-name
+
 jobs:
   test:
+    # defining environment variables at the job level
+    env:
+      MONGODB_CLUSTER_ADDRESS: test-cluster-1.q7ryfb5.mongodb.net
+      MONGODB_USERNAME: nchaurasiya
+      MONGODB_PASSWORD: XIBpj7VuSHKdzdD1
+      PORT: 8080
     environment: testing
     runs-on: ubuntu-latest
     steps:
@@ -19,15 +29,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Run server
-        run: npm start & npx wait-on http://127.0.0.1:XYZ
+        run: npm start & npx wait-on http://127.0.0.1:${{ env.PORT }}
       - name: Run tests
         run: npm test
       - name: Output information
-        run: echo "..."
+        run: echo "MONGODB_USERNAME is ${{ env.MONGODB_USERNAME }}"
   deploy:
     needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Output information
         run: |        
-          echo "..."
+          echo "MONGODB_USERNAME is ${{ env.MONGODB_USERNAME }}"
+          echo "MONGODB_DATABASE_NAME: $env.MONGODB_DB_NAME"
