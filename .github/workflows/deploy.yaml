@@ -39,6 +39,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Output information
-        run: |        
-          echo "MONGODB_USERNAME is ${{ env.MONGODB_USERNAME }}"
+        run: |     
           echo "MONGODB_DATABASE_NAME: $env.MONGODB_DB_NAME"
